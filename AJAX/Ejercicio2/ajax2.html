@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script type="text/javascript">
+        window.onload = init;
+        let http;
+
+        function init(){
+            http = new XMLHttpRequest();
+            //let url = "index.php";
+            let url = "peliculas.xml";
+            http.open("GET", url, true);
+            http.onreadystatechange = ajax;
+            http.send(null)
+        }
+
+        function ajax() {
+            if (http.readyState == 4) {
+                //se ha recibido la respuesta
+                if (http.status == 200) {
+                    //Ejecutar aqui lo que queremos tras recibir la respuesta
+                    let documento = http.responseXML;
+                    crearTabla(documento);
+                } else {
+                    // Ha ocurrido un error
+                    alert("Error: " + http.statusText);
+                }
+            }
+        }
+
+        function crearTabla(xml){
+            let peliculas = xml.getElementsByTagName("Pelicula");
+            let numPeliculas = peliculas.length;
+            let eTabla = document.createElement("table");
+
+            let hDirector = document.createElement("th");
+            let hTitulo = document.createElement("th");
+            hDirector.textContent = "Director";
+            hTitulo.textContent= "Película";
+            let trHeader = document.createElement("tr");
+            trHeader.appendChild(hDirector);
+            trHeader.appendChild(hTitulo);
+            eTabla.appendChild(trHeader);
+
+
+            for (let i=0; i<numPeliculas;i++) {
+                let pelicula = peliculas[i];
+                let eDirector = pelicula.children[0];
+                let eTitulo = pelicula.children[1];
+                let director = eDirector.textContent;
+                let titulo = eTitulo.textContent;
+
+                let eTR = document.createElement("tr");
+                eTR.appendChild(crearTD(director));
+                eTR.appendChild(crearTD(titulo));
+                eTabla.appendChild(eTR);
+            }
+            document.body.appendChild(eTabla);
+        }
+
+        function crearTD(contenido){
+            var eTD = document.createElement("td");
+            eTD.style.border = "1px solid";
+            eTD.textContent =contenido;
+
+            return eTD;
+        }
+</script>
+<body>
+</body>
+</html>

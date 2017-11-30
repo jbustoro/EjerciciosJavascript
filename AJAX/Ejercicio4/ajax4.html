@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <style media="screen">
+        #formulario{
+            text-align: center;
+        }
+
+        #btn {
+            padding: 15px 25px;
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: rgb(255, 0, 0);
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 9px #999;
+        }
+
+        #btn:hover {background-color: rgb(199, 18, 18)}
+
+        #btn:active {
+            background-color: rgb(199, 18, 18);
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = ajax1;
+
+        let http;
+        let url;
+
+        function ajax1() {
+            document.getElementById("btn").addEventListener("click", loadDirectors);
+            http = new XMLHttpRequest();
+            url = "xml/peliculas.xml";
+        }
+
+        function loadDirectors() {
+            document.getElementById("btn").disabled = true;
+
+            http.open("GET", url, true);
+
+            http.onreadystatechange = function() {
+                if (http.readyState == 4) {
+                    //Respuesta recibida
+                    if (http.status == 200) {
+                        //ejecucion tras recibir respuesta
+                        let datosXML = http.responseXML;
+                        let peliculas = datosXML.getElementsByTagName("Pelicula");
+                        let director;
+                        let directors = ["Select a director"];
+                        for (let i=0;i<peliculas.length;i++) {
+                            director = peliculas[i].getElementsByTagName("Director")[0].childNodes[0].nodeValue;
+
+                            if (directors.indexOf(director) === -1) {
+                                directors.push(director);
+                            }
+                        }
+
+                        //Create and append select list
+                        let selectDirector = document.createElement("select");
+                        selectDirector.id = "selectDirector";
+                        document.getElementById("formulario").appendChild(selectDirector);
+
+                        //Create and append the options
+                        for (let i = 0; i < directors.length; i++) {
+                            let option = document.createElement("option");
+                            option.value = directors[i];
+                            option.text = directors[i];
+                            selectDirector.appendChild(option);
+                        }
+                        selectDirector.addEventListener("change", loadFilms);
+                    } else {
+                        alert("Error: "+http.statusText);
+                    }
+                }
+            };
+            http.send();
+        }
+
+        function loadFilms(event) {
+            document.getElementById("selectDirector").disabled = true;
+
+            http.open("GET", url, true);
+
+            http.onreadystatechange = function() {
+                if (http.readyState == 4) {
+                    //Respuesta recibida
+                    if (http.status == 200) {
+                        //ejecucion tras recibir respuesta
+                        let datosXML = http.responseXML;
+                        let peliculas = datosXML.getElementsByTagName("Pelicula");
+                        let director;
+                        let titulos = ["Select a film"];
+                        let selectedDirector = event.target.options[event.target.selectedIndex].text;
+
+                        for (let i=0;i<peliculas.length;i++) {
+                            director = peliculas[i].getElementsByTagName("Director")[0].childNodes[0].nodeValue;
+
+                            if (selectedDirector === director) {
+                                titulo = peliculas[i].getElementsByTagName("Titulo")[0].childNodes[0].nodeValue;
+                                titulos.push(titulo);
+                            }
+                        }
+
+                        //Create and append select list
+                        let selectFilm = document.createElement("select");
+                        selectFilm.id = "selectFilm";
+                        document.getElementById("formulario").appendChild(selectFilm);
+
+                        //Create and append the options
+                        for (let i = 0; i < titulos.length; i++) {
+                            let option = document.createElement("option");
+                            option.value = titulos[i];
+                            option.text = titulos[i];
+                            selectFilm.appendChild(option);
+                        }
+                        selectFilm.addEventListener("change", ajax2);
+                    } else {
+                        alert("Error: "+http.statusText);
+                    }
+                }
+            };
+            http.send();
+        }
+
+        function ajax2(event) {
+            document.getElementById("selectFilm").disabled = true;
+
+            let selectedFilm = event.target.options[event.target.selectedIndex].text;
+            selectedFilm = selectedFilm.toLowerCase();
+            selectedFilm = selectedFilm.replace(" ", "_");
+
+            http = new XMLHttpRequest();
+            url = "sipnosis/" + selectedFilm + ".txt";
+            loadSipnosis();
+        }
+
+        function loadSipnosis() {
+            http.open("GET", url, true);
+
+            http.onreadystatechange = function() {
+                if (http.readyState == 4) {
+                    //Respuesta recibida
+                    if (http.status == 200) {
+                        //ejecucion tras recibir respuesta
+                        let fileContent = http.responseText;
+                        let sipnosis = document.createElement("p");
+                        sipnosis.textContent = fileContent;
+                        document.getElementById("formulario").appendChild(sipnosis);
+                    } else {
+                        alert("Error: "+http.statusText);
+                    }
+                }
+            };
+            http.send();
+        }
+    </script>
+</head>
+<body>
+    <form id="formulario">
+        <input id="btn" type="button" value="Start">
+    </form>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script type="text/javascript">
+        window.onload = init;
+        let http;
+
+        function init() {
+            document.getElementById("formulario").addEventListener("submit", ajax);
+        }
+
+        function getFilename() {
+            return document.forms[0].elements[0].value;
+        }
+
+        function ajax(event){
+            event.preventDefault();
+            http = new XMLHttpRequest();
+            let url = getFilename();
+            http.open("GET", url, true);
+            http.onreadystatechange = readFile;
+            http.send(null)
+        }
+
+        function readFile() {
+            if (http.readyState == 4) {
+                //se ha recibido la respuesta
+                if (http.status == 200) {
+                    //Ejecutar aqui lo que queremos tras recibir la respuesta
+                    let file = http.responseText;
+                    let element = document.createElement("p");
+                    element.textContent = file;
+                    document.body.appendChild(element);
+                } else {
+                    // Ha ocurrido un error
+                    alert("Error: " + http.statusText);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <form id="formulario">
+        <input type="text"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>
+<!--
+Crear una página en el que aparecerá un cuadro de texto y un boton. Al pulsar el boton pediremos al servidor web el
+contenido del fichero que le indiquemos en el cuadro de texto. Este texto deberá aparecer debajo de los elementos en un
+cuadro. En el caso de que el fichero no exista en el servidor tendra que avisarnos de ello.
+-->

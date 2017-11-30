@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script>
+            let timer, myWindow;
+
+            function newWindow() {
+                myWindow = window.open("", "", "width=200,height=200");
+                timer = setTimeout(closeWindow, 5000);
+                myWindow.addEventListener("click", checkActivity);
+                myWindow.addEventListener("mouseover", checkActivity);
+            }
+
+            function checkActivity() {
+                clearTimeout(timer);
+                timer = setTimeout(closeWindow, 5000);
+            }
+
+            function closeWindow() {
+                myWindow.close();
+            }
+        </script>
+    </head>
+    <body>
+        <button type="button" onclick="newWindow()">New window</button>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title></title>
+        <style media="screen">
+            body{
+                background-image: url("img/bg.jpg");
+                background-repeat: no-repeat;
+                background-size: 100% auto;
+            }
+
+            img{
+                float: left;
+                width: 188px;
+                height: 300px;
+                margin: 10px;
+                opacity: 0.9;
+                border: 1px solid white;
+            }
+
+            img:hover{
+                opacity: 1.0;
+            }
+
+            #container{
+                margin-top: 40px;
+                margin-left: 200px;
+                float: left;
+                width: 860px;
+                height: 300px;
+                background-color: rgb(255, 255, 255);
+                border: 1px solid black;
+                opacity: 0.8;
+            }
+
+            #sipnosis{
+                margin: 20px;
+            }
+        </style>
+        <script type="text/javascript">
+        window.onload = init;
+            let http;
+
+            function init() {
+                let images = document.getElementsByTagName("img");
+                for (let i = 0; i < images.length; i++) {
+                    images[i].addEventListener("click", ajax);
+                }
+            }
+
+            function ajax(){
+                http = new XMLHttpRequest();
+                let url = "sipnosis/" + this.id + ".txt";
+                http.open("GET", url, true);
+                http.onreadystatechange = readFile;
+                http.send(null)
+            }
+
+            function readFile() {
+                if (http.readyState == 4) {
+                    //se ha recibido la respuesta
+                    if (http.status == 200) {
+                        //Ejecutar aqui lo que queremos tras recibir la respuesta
+                        let fileContent = http.responseText;
+                        document.getElementById("sipnosis").textContent = fileContent;
+                    } else {
+                        // Ha ocurrido un error
+                        alert("Error: " + http.statusText);
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <img id="reservoir_dogs" src="img/reservoir_dogs.jpg" title="Reservoir Dogs (1993)"/>
+        <img id="trainspotting" src="img/trainspotting.jpg" title="Trainspotting (1996)"/>
+        <img id="batman_begins" src="img/batman_begins.jpg" title="Batman Begins (2005)"/>
+        <img id="inception" src="img/inception.jpg" title="Inception (2010)"/>
+        <img id="snatch" src="img/snatch.jpg" title="Snatch (2000)"/>
+        <img id="gladiator" src="img/gladiator.jpg" title="Gladiator (2000)"/>
+        <div id="container"><p id="sipnosis"></p></div>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <style media="screen">
+        #container{
+            position: absolute;
+            top: 32%;
+            left: 32%;
+            height: 200px;
+            width: 420px;
+            background-color: rgb(166, 203, 192);
+        }
+
+        input{
+            border-width: 2px;
+        }
+
+        #bloque1{
+            float: left;
+            height: 100%;
+            width: 170px;
+            margin: 20px;
+        }
+
+        #bloque2{
+            float: left;
+            height: 100%;
+            width: 170px;
+            margin: 20px;
+        }
+
+        .boton{
+            float: left;
+            width: 190px;
+            margin: 10px;
+            background-color: rgb(62, 115, 145);
+            color: white;
+        }
+
+        .boton:hover {
+            background-color: rgb(62, 100, 145);
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = init;
+
+        function init() {
+            let inputs = document.getElementsByTagName("input");
+            addEvents(inputs);
+            focus(inputs[0]);
+            disableSubmit();
+        }
+
+        function addEvents(inputs) {
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener("keydown", chFocus);
+            }
+
+            document.getElementById("limpiar").addEventListener("click", clean);
+        }
+
+        function focus(input) {
+            input.focus();
+            input.select();
+        }
+
+        function validation(input) {
+            if(input.value === ""){
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function disableSubmit() {
+            let inputs = document.getElementsByTagName("input");
+
+            for (let i = 0; i < inputs.length; i++) {
+                if (validation(inputs[i])) {
+                    document.getElementById("enviar").disabled = false;
+                } else {
+                    document.getElementById("enviar").disabled = true;
+                    return;
+                }
+            }
+        }
+
+        function chFocus(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                let inputs = Array.prototype.slice.call(document.querySelectorAll("input"));
+                let active = document.activeElement;
+                let index = (inputs.indexOf(active) + 1) % inputs.length;
+                let input = inputs[index];
+                disableSubmit();
+                focus(input);
+
+                if (validation(active)) {
+                    active.style.backgroundColor = 'rgb(255, 255, 255)';
+                } else {
+                    active.style.backgroundColor = 'rgb(208, 86, 86)';
+                }
+            }
+        }
+
+        function clean() {
+            let inputs = document.getElementsByTagName("input");
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = "";
+                inputs[i].style.backgroundColor = "white";
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form  id="formulario" onsubmit="validation">
+            <div id="bloque1">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Nombre">
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" placeholder="Apellidos">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección" maxlength="100">
+            </div>
+            <div id="bloque2">
+                <label for="poblacion">Población</label>
+                <input type="text" id="poblacion" placeholder="Población">
+                <label for="cp">Código postal</label>
+                <input type="text" id="cp" placeholder="Código postal">
+                <label for="provincia">Provincia</label>
+                <input type="text" id="provincia" placeholder="Provincia">
+            </div>
+            <div id="botones">
+                <button class="boton" id="enviar" type="submit">Enviar</button>
+                <button class="boton" id="limpiar" type="button">Limpiar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<!--
+Crea una página con un formulario que nos pedirá datos personales cada uno en un cuadro de texto:
+nombre, apellidos, dirección, población, código postal, provincia. Ordena los campos de manera
+que queden en dos columnas. Al final del formulario habrá un botón de enviar y otro de limpiar
+el formulario. Al iniciar la página el cuadro de texto del nombre deberá tener el puntero listo
+para escribir y cuando pulsemos la tecla enter saltara al siguiente campo. En caso de que no se
+haya rellenado el campo deberá  poner el fondo rojo y no permitirá pulsar el botón de envió.
+-->

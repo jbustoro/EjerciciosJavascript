@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Manipular nodos</title>
+    <style type="text/css">
+        #cuadro  { width: 400px; height: 250px; border: 1px black solid; float: right;
+            font-family: arial; overflow: auto }
+        p  { font-size: 1em; font-family: arial;  }
+    </style>
+    <script type="application/javascript">
+        function borrar() {
+            let elements = document.getElementById("cuadro");
+            while (elements.firstChild) {
+                elements.removeChild(elements.firstChild);
+            }
+        }
+
+        function restaurar() {
+            borrar();
+
+            for(let i=0; i<cajaInicial.length; i++){
+                elemento = document.createElement(cajaInicial[i].tagName);
+                contenido = document.createTextNode(cajaInicial[i].textContent);
+                identificador = cajaInicial[i].id;
+                elemento.appendChild(contenido);
+                elemento.id = identificador;
+                cuadro.appendChild(elemento);
+            }
+        }
+
+        function debajo() {
+            cuadro = document.getElementById("cuadro");
+            elemento = document.createElement("h4");
+            contenido = document.createTextNode("Nuevo elemento");
+
+            elemento.appendChild(contenido);
+            cuadro.appendChild(elemento);
+        }
+
+        function delante() {
+            cuadro = document.getElementById("cuadro");
+            elemento = document.createElement("h4");
+            contenido = document.createTextNode("Nuevo elemento 2");
+
+            elemento.appendChild(contenido);
+            cuadro.insertBefore(elemento, cuadro.children[1]);
+        }
+        
+        function reemplazar() {
+            elemento = document.createElement("h4");
+            contenido = document.createTextNode("Nuevo elemento reemplazar");
+
+            elemento.appendChild(contenido);
+            cuadro.replaceChild(elemento, cuadro.children[0]);
+        }
+
+        function suprimir() {
+            cuadro.removeChild(cuadro.children[2]);
+        }
+
+        function cambiar() {
+            let segundoElemento = cuadro.children[1];
+            elemento = document.createElement(segundoElemento.tagName);
+            contenido = document.createTextNode(segundoElemento.textContent);
+            identificador = segundoElemento.id;
+
+            elemento.appendChild(contenido);
+            elemento.id = identificador;
+            cuadro.removeChild(segundoElemento);
+            cuadro.appendChild(elemento);
+        }
+
+        function copiar() {
+            let ultimoElemento = cuadro.children[cuadro.children.length-1];
+            elemento = document.createElement(ultimoElemento.tagName);
+            contenido = document.createTextNode(ultimoElemento.textContent);
+            identificador = ultimoElemento.id;
+
+            elemento.appendChild(contenido);
+            elemento.id = identificador;
+            cuadro.appendChild(elemento);
+
+        }
+    </script>
+</head>
+<body>
+    <h1>Manipulación  de nodos. </h1>
+    <div id="cuadro">
+        <h4 id="primero">primer texto fijo</h4>
+        <h4 id="segundo">Segundo texto fijo</h4>
+        <h4 id="tercero">Tercer texto fijo</h4>
+    </div>
+    <p>Pulsa en los siguientes párrafos, para cambiar los textos de la caja de la derecha</p>
+    <p onclick="restaurar()">Pulsa en este párrafo para restaurar el estado inicial de la caja.</p>
+    <p onclick="debajo()">Insertar nuevo elemento debajo de todos</p>
+    <p onclick="delante()">Insertar nuevo elemento delante del segundo.</p>
+    <p onclick="reemplazar()">reemplazar el primer elemento de la caja por otro nuevo</p>
+    <p onclick="suprimir()">Suprimir el tercer párrafo</p>
+    <p onclick="cambiar()">Poner el segundo texto en último lugar</p>
+    <p onclick="copiar()">Copia del nuevo elemento, se inserta al final</p>
+</body>
+</html>
+<script>
+    //variables
+    let cajaInicial = document.getElementById("cuadro").querySelectorAll("*");
+    let cuadro = document.getElementById("cuadro");
+    let elemento;
+    let contenido;
+    let identificador;
+</script>

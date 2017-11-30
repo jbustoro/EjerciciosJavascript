@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            #box{
+                background-color: yellow;
+                width: 200px;
+                height: 200px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -100px;
+                margin-top: -100px;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = addEvents;
+            let pulsado = false;
+
+            function addEvents() {
+                document.body.addEventListener("mousedown", pulsar);
+                document.body.addEventListener("mouseup", soltar) ;
+                document.body.addEventListener("mousemove", mover);
+            }
+
+            function pulsar() {
+                pulsado = true;
+                document.getElementById("box").style.backgroundColor = "blue";
+
+            }
+
+            function soltar() {
+                pulsado = false;
+                document.getElementById("box").style.backgroundColor = "yellow";
+            }
+
+            function mover(event) {
+                let box = document.getElementById("box");
+                let coordX =  event.clientX;
+                let coordY = event.clientY;
+                if (pulsado) {
+                    box.style.left = coordX + "px";
+                    box.style.top = coordY + "px";
+                }
+
+            }
+
+
+        </script>
+    </head>
+    <body>
+        <div id="box"></div>
+    </body>
+</html>
+<!--
+Crea una pagina en la que aparecera un cuadrado de color amarillo en el centro de la pantalla.
+Este cuadrado se debera desplazar cuando hagamos click encima de él  y se detendra cuando soltemos
+el boton. Cuando se este desplazando el cuadrado estara de color azul.
+-->

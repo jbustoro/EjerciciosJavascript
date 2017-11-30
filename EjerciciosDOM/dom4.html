@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ver todos los párrafos</title>
+    <style type="text/css">
+        #cuadro { width: 500px; height: 280px; border: 1px black solid; float: right; }
+        p { font-size: 1em; font-family: arial; }
+    </style>
+    <script type="text/javascript">
+        function acceder() {
+            borrar();
+            let cuadro = document.getElementById("cuadro");
+            let title = document.querySelector("h1").textContent;
+            let paragraphs = document.querySelectorAll("p");
+            let element = document.createElement("h1");
+            let content = document.createTextNode(title);
+
+            element.appendChild(content);
+            cuadro.appendChild(element);
+
+            for(let i=0; i<paragraphs.length; i++){
+                element = document.createElement("p");
+                content = document.createTextNode(paragraphs[i].textContent);
+                element.appendChild(content);
+                cuadro.appendChild(element);
+            }
+        }
+
+        function borrar() {
+            let elements = document.getElementById("cuadro");
+            while (elements.firstChild) {
+                elements.removeChild(elements.firstChild);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Acceso a los párrafos</h1>
+    <div id="cuadro"></div>
+    <p>Este es el primer párrafo de esta página</p>
+    <p>Este es el segundo párrafo</p>
+    <p>Y este el tercero</p>
+    <p onclick="acceder()">Pulsa en este cuarto párrafo para volver a verlos todos en el recuadro de la derecha.</p>
+    <p onclick="borrar()">Y pulsa en el quinto para borrar el recuadro de la derecha.</p>
+</body>
+</html>

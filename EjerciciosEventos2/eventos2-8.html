@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            #box{
+                background-color: yellow;
+                width: 200px;
+                height: 200px;
+                margin-left: 500px;
+                margin-top: 200px;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = addEvents;
+
+            function addEvents() {
+                window.addEventListener("keydown", mvBox);
+            }
+
+            function mvBox(event) {
+                let box = document.getElementById("box");
+                let left = 37;
+                let up = 38;
+                let right = 39;
+                let down = 40;
+                let marginLeft = parseInt(window.getComputedStyle(document.getElementById('box')).marginLeft);
+                let marginTop = parseInt(window.getComputedStyle(document.getElementById('box')).marginTop);
+
+                if(event.keyCode == left){
+                    box.style.marginLeft = marginLeft - 10 + "px";
+                }else if (event.keyCode == up) {
+                    box.style.marginTop = marginTop - 10 + "px";
+                }else if (event.keyCode == right) {
+                    box.style.marginLeft = marginLeft + 10 + "px";
+                }else if (event.keyCode == down) {
+                    box.style.marginTop = marginTop + 10 + "px";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="box"></div>
+    </body>
+</html>
+<!--
+Crea una pagina en la que aparecera un cuadrado de color amarillo en el centro de la pantalla.
+Este cuadrado se debera desplazar 10px hacia la direccion en la que hayamos pulsado las flechas
+de desplazamiento.
+-->

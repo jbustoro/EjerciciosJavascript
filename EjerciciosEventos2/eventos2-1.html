@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript">
+            window.onload = addEvents;
+
+            function addEvents() {
+                let paragraph= document.getElementsByTagName("p");
+
+                paragraph[0].addEventListener("click", chColor);
+                paragraph[0].addEventListener("dblclick", chColor);
+            }
+
+            function chColor(event) {
+                if (event.type === "click") {
+                    this.style.color = "red";
+                } else if (event.type === "dblclick") {
+                    this.style.color = "blue";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <p>Este es el párrafo</p>
+    </body>
+</html>

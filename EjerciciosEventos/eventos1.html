@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script type="text/javascript">
+            window.onload = createButtons;
+
+            function createButtons() {
+                let btn1 = document.createElement("button");
+                let content = document.createTextNode("1");
+                btn1.appendChild(content);
+                btn1.addEventListener("click", getClickedBtn);
+                document.body.appendChild(btn1);
+
+                let btn2 = document.createElement("button");
+                content = document.createTextNode("2");
+                btn2.appendChild(content);
+                btn2.addEventListener("click", getClickedBtn);
+                document.body.appendChild(btn2);
+
+                let btn3 = document.createElement("button");
+                content = document.createTextNode("3");
+                btn3.appendChild(content);
+                btn3.addEventListener("click", getClickedBtn);
+                document.body.appendChild(btn3);
+            }
+
+            function getClickedBtn() {
+                console.log(this.value);
+            }
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

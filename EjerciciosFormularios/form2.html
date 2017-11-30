@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <style media="screen">
+        .box{
+            background-color: grey;
+            width: 180px;
+            height: 180px;
+            margin: 10px;
+            float: left;
+        }
+    </style>
+    <script type="text/javascript">
+        function chColor(event) {
+            let boxes = document.getElementsByClassName("box");
+            let box = document.forms["formulario"].elements["selectBox"].value;
+            let color = document.forms["formulario"].elements["selectColor"].value;
+
+            event.preventDefault();
+
+            if (box === undefined || box === "default") {
+                alert("Select a box");
+            } else if(color === undefined || color === "default") {
+                alert("Select a color");
+            }else{
+                boxes[box - 1].style.backgroundColor = "" + color;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+    <div class="box">4</div>
+    <br/>
+    <form id="formulario" onsubmit="chColor(event)">
+        <select name="selectBox">
+            <option value="default">Select a box</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <br><br>
+        <select name="selectColor">
+            <option value="default">Select a color</option>
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
+        <br/><br/>
+        <input id="btn" type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

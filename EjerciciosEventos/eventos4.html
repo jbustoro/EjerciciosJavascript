@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC>
+<html>
+    <head>
+      <title></title>
+    </head>
+        <style type="text/css">
+            .linea{
+            	height:100px;
+            	width:100px;
+            	background:blue;
+            	display:inline-block;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = addEvents;
+
+            function addEvents() {
+                let lines = document.getElementsByClassName("linea");
+
+                for (let i = 0; i < lines.length; i++) {
+                    lines[i].addEventListener('mouseover', chColorGreen);
+                    lines[i].addEventListener('mouseout', chColorBlue);
+                    lines[i].addEventListener('click',chColorRed);
+                }
+            }
+
+            function chColorGreen() {
+                this.style.backgroundColor = 'green';
+            }
+
+            function chColorBlue() {
+                this.style.backgroundColor = 'blue';
+            }
+
+            function chColorRed() {
+                this.style.backgroundColor = 'red';
+            }
+        </script>
+    <body>
+        <div class="linea">ASR31</div>
+        <div class="linea">ASR32</div>
+        <div class="linea">SM21</div>
+        <div class="linea">SM22</div>
+        <div class="linea">DW31</div>
+        <div class="linea">DW32</div>
+    </body>
+</html>
